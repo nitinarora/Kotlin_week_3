@@ -15,24 +15,32 @@ fun TaxiPark.findFaithfulPassengers(minTrips: Int): Set<Passenger> =
 /*
  * Task #3. Find all the passengers, who were taken by a given driver more than once.
  */
-fun TaxiPark.findFrequentPassengers(driver: Driver): Set<Passenger> {
-    return trips.groupBy { it.driver.name }.mapValues { entry ->
-        entry.value.flatMap { it.passengers.toList() }.groupingBy { it }.eachCount().filter { it.value > 1 }.keys
-    }.values.flatten().toSet()
-}
+fun TaxiPark.findFrequentPassengers(driver: Driver): Set<Passenger> =
+        trips.groupBy { it.driver.name }.mapValues { entry ->
+            entry.value.flatMap { it.passengers.toList() }.groupingBy { it }.eachCount().filter { it.value > 1 }.keys
+        }.values.flatten().toSet()
 
 /*
  * Task #4. Find the passengers who had a discount for majority of their trips.
  */
-fun TaxiPark.findSmartPassengers(): Set<Passenger> =
-        TODO()
+fun TaxiPark.findSmartPassengers(): Set<Passenger> {
+    val (discountedTrips, otherTrips) = trips.partition { it.discount != null }
+    val mapPassengerDiscountedTripCount = discountedTrips.flatMap { it.passengers.toList() }.groupingBy { it }.eachCount()
+    return mapPassengerDiscountedTripCount.keys.toSet()
+}
 
 /*
  * Task #5. Find the most frequent trip duration among minute periods 0..9, 10..19, 20..29, and so on.
  * Return any period if many are the most frequent, return `null` if there're no trips.
  */
 fun TaxiPark.findTheMostFrequentTripDurationPeriod(): IntRange? {
-    return TODO()
+    val listDuration = trips.map { it.duration }
+
+    var highestRange = 0..9
+
+
+
+    return 0..9
 }
 
 /*
