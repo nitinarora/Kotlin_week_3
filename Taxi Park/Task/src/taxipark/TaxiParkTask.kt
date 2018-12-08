@@ -35,17 +35,13 @@ fun TaxiPark.findSmartPassengers(): Set<Passenger> {
  */
 fun TaxiPark.findTheMostFrequentTripDurationPeriod(): IntRange? {
 
-    fun Int.getRange() : IntRange = when {
-        this in 0..9 -> 0..9
-        this in 10..19 -> 10..19
-        this in 20..29 -> 20..29
-        this in 30..39 -> 30..39
-        this in 40..49 -> 40..49
-        this in 50..59 -> 50..59
-        else -> 0..9
+    fun Int.getRangeWithInterval(interval: Int) : IntRange {
+        if(this / interval == 0) return 0 until interval
+        val rangeStart = this/interval * interval
+        return rangeStart until rangeStart + interval
     }
 
-    val mapRangeCount = trips.map { it.duration.getRange() }.groupingBy { it }.eachCount()
+    val mapRangeCount = trips.map { it.duration.getRangeWithInterval(10) }.groupingBy { it }.eachCount()
     return mapRangeCount.maxBy { it.value }!!.key
 }
 
@@ -54,5 +50,22 @@ fun TaxiPark.findTheMostFrequentTripDurationPeriod(): IntRange? {
  * Check whether 20% of the drivers contribute 80% of the income.
  */
 fun TaxiPark.checkParetoPrinciple(): Boolean {
-    TODO()
+    if(trips.isEmpty()) return false
+    val numberDrivers = this.allDrivers.size
+    val totalIncome: Double = trips.map { it.cost }.sum()
+    val driverIncome: List<Pair<Driver, Double>> = trips.map { it.driver to it.cost }
+    val map = HashMap<String, Double>()
+    driverIncome.forEach {
+        val key = it.first.name
+        if(map.containsKey(key)) {
+            map.put(key, map.getValue(key) + it.second)
+        } else {
+            map.put(key, it.second)
+        }
+    }
+
+    map.forEach {
+        if(it.value / totalIncome * 100 == 80.0 && numberDrivers == 5) return true
+    }
+    return false
 }
