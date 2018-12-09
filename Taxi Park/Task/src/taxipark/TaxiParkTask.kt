@@ -18,7 +18,7 @@ fun TaxiPark.findFaithfulPassengers(minTrips: Int): Set<Passenger> =
 fun TaxiPark.findFrequentPassengers(driver: Driver): Set<Passenger> =
         trips.groupBy { it.driver.name }.mapValues { entry ->
             entry.value.flatMap { it.passengers.toList() }.groupingBy { it }.eachCount().filter { it.value > 1 }.keys
-        }.values.flatten().toSet()
+        }.get(driver.name)?: emptySet()
 
 /*
  * Task #4. Find the passengers who had a discount for majority of their trips.
@@ -27,6 +27,12 @@ fun TaxiPark.findSmartPassengers(): Set<Passenger> {
     val (discountedTrips, otherTrips) = trips.partition { it.discount != null }
     val mapPassengerDiscountedTripCount = discountedTrips.flatMap { it.passengers.toList() }.groupingBy { it }.eachCount()
     return mapPassengerDiscountedTripCount.keys.toSet()
+
+    //make a map of passenger to list of his trips
+    // for each passenger count discounted trips and check whether more than 50 % of his trips were discounted
+    // if above is yes, add passenger to a set
+
+    //trips.groupBy { it.passengers }
 }
 
 /*
