@@ -27,9 +27,9 @@ class TestTaxiPark {
 
     @Test
     fun testSmartPassengers() {
-//        val tp = taxiPark(1..2, 1..2, trip(1, 1, discount = 0.1), trip(2, 2))
-//        Assert.assertEquals("Wrong result for 'findSmartPassengers()'." + tp.display(),
-//                passengers(1), tp.findSmartPassengers())
+        val tp = taxiPark(1..2, 1..2, trip(1, 1, discount = 0.1), trip(2, 2))
+        Assert.assertEquals("Wrong result for 'findSmartPassengers()'." + tp.display(),
+                passengers(1), tp.findSmartPassengers())
 
         val tp2 = taxiPark(0..5, 0..9,
                 trip(5, listOf(2), 33, 18.0),

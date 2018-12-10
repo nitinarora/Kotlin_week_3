@@ -23,17 +23,11 @@ fun TaxiPark.findFrequentPassengers(driver: Driver): Set<Passenger> =
 /*
  * Task #4. Find the passengers who had a discount for majority of their trips.
  */
-fun TaxiPark.findSmartPassengers(): Set<Passenger> {
-    val (discountedTrips, otherTrips) = trips.partition { it.discount != null }
-    val mapPassengerDiscountedTripCount = discountedTrips.flatMap { it.passengers.toList() }.groupingBy { it }.eachCount()
-    return mapPassengerDiscountedTripCount.keys.toSet()
+fun TaxiPark.findSmartPassengers(): Set<Passenger> =
+    allPassengers.filter {
+        p -> trips.filter { p in it.passengers && it.discount != null }.count() > trips.filter { p in it.passengers && it.discount == null }.count()
+    }.toSet()
 
-    //make a map of passenger to list of his trips
-    // for each passenger count discounted trips and check whether more than 50 % of his trips were discounted
-    // if above is yes, add passenger to a set
-
-    //trips.groupBy { it.passengers }
-}
 
 /*
  * Task #5. Find the most frequent trip duration among minute periods 0..9, 10..19, 20..29, and so on.
