@@ -42,7 +42,7 @@ fun TaxiPark.findTheMostFrequentTripDurationPeriod(): IntRange? {
     }
 
     val mapRangeCount = trips.map { it.duration.getRangeWithInterval(10) }.groupingBy { it }.eachCount()
-    return mapRangeCount.maxBy { it.value }!!.key
+    return mapRangeCount.maxBy { it.value }?.key
 }
 
 /*
@@ -64,8 +64,18 @@ fun TaxiPark.checkParetoPrinciple(): Boolean {
         }
     }
 
+//    fun top20PercentPerformers(mapDriversIncome: HashMap<String, Double>)  {
+//        var totalContribution = 0.0
+//        mapDriversIncome.forEach {
+//            totalContribution+= it.value
+//            if (totalContribution/totalIncome*100 > 80 )
+//        }
+//    }
+//
+//    top20PercentPerformers()
+
     map.forEach {
-        if(it.value / totalIncome * 100 == 80.0 && numberDrivers == 5) return true
+        if(it.value / totalIncome * 100 >= 80.0) return true
     }
     return false
 }

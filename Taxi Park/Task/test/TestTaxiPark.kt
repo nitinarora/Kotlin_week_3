@@ -72,6 +72,17 @@ class TestTaxiPark {
         Assert.assertEquals(
                 "Wrong result for 'checkParetoPrinciple()'." + tp.display(),
                 true, tp.checkParetoPrinciple())
+
+        val tp2 = taxiPark(1..5, 1..4,
+                trip(1, 1, 20, 20.0),
+                trip(1, 2, 20, 20.0),
+                trip(1, 3, 20, 20.0),
+                trip(1, 4, 20, 20.0),
+                trip(2, 1, 20, 19.0))
+        Assert.assertEquals(
+                "Wrong result for 'checkParetoPrinciple()'." + tp2.display(),
+                true, tp2.checkParetoPrinciple())
+
     }
 
     @Test
