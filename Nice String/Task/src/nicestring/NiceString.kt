@@ -1,7 +1,7 @@
 package nicestring
 
 fun String.isNice(): Boolean {
-    fun Char.isVowel() = this in listOf('a', 'e', 'i', 'o', 'u')
+    fun Char.isVowel() = this in "aeiou"
 
     var conditionCount = 0
 
