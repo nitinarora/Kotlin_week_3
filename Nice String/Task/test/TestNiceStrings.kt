@@ -19,7 +19,7 @@ class TestNiceStrings {
     fun testExample3() = testNiceString("abaca", false)
 
     @Test
-    fun testExample4() = testNiceString("baaa", true)
+    fun testExample4() = testNiceString("bbaa", false)
 
     @Test
     fun testExample5() = testNiceString("aaab", true)
