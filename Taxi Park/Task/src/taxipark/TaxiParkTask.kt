@@ -51,31 +51,14 @@ fun TaxiPark.findTheMostFrequentTripDurationPeriod(): IntRange? {
  */
 fun TaxiPark.checkParetoPrinciple(): Boolean {
     if(trips.isEmpty()) return false
-    val numberDrivers = this.allDrivers.size
     val totalIncome: Double = trips.map { it.cost }.sum()
-    val driverIncome: List<Pair<Driver, Double>> = trips.map { it.driver to it.cost }
-    val map = HashMap<String, Double>()
-    driverIncome.forEach {
-        val key = it.first.name
-        if(map.containsKey(key)) {
-            map.put(key, map.getValue(key) + it.second)
-        } else {
-            map.put(key, it.second)
-        }
-    }
+    var top20PercDriversIncome = 0.0
 
-//    fun top20PercentPerformers(mapDriversIncome: HashMap<String, Double>)  {
-//        var totalContribution = 0.0
-//        mapDriversIncome.forEach {
-//            totalContribution+= it.value
-//            if (totalContribution/totalIncome*100 > 80 )
-//        }
-//    }
-//
-//    top20PercentPerformers()
+    fun top20PercentDrivers()  =  trips.sortedByDescending { it.cost }.map { it.driver }.take((allDrivers.size * 0.2).toInt())
+    fun Driver.calculateDriversTotalIncome() = trips.filter { it.driver.name == this.name  }.sumByDouble { it.cost }
 
-    map.forEach {
-        if(it.value / totalIncome * 100 >= 80.0) return true
+    top20PercentDrivers().forEach {
+        driver -> top20PercDriversIncome += driver.calculateDriversTotalIncome()
     }
-    return false
+    return (top20PercDriversIncome / totalIncome * 100 >= 80.0)
 }
